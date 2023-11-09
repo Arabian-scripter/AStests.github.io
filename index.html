@@ -1,0 +1,115 @@
+<html>
+<head>
+    <style>
+        .Upper{
+            margin: -10px;
+            width: 105%;
+            height: 49px;
+            background-color: rgb(0, 89, 255);
+        }
+        .Upper h1 {
+            color: white;
+            margin: 12px;
+        
+        }
+        #Dinput {
+            
+            background-color: antiquewhite;
+            width: 250px;
+            border-radius: 10px;
+            border-color: black;
+        }
+        button {
+            background-color: rgb(0, 0, 0);
+            color: aliceblue;
+            border-radius: 7px;
+            border-width: 3px;
+        }
+        input {
+            border-radius: 7px;
+            border-width: 2px;
+        }
+
+        
+    </style>
+<script src="brython.js">
+</script>
+<script src="brython_stdlib.js">
+</script>
+<script src="/brython.js"></script>
+</head>
+<body onload="brython()">
+<script type="text/python">
+from browser import document,html,alert
+from browser.widgets.dialog import InfoDialog
+alert("اذا حدث اي خطا في الموقع جرب اعادة تشغيله")
+SDiv = None
+INPTS = []
+alreadyHave = False
+finalNumber = None
+def SecondStep(ev):
+    global alreadyHave
+    global finalNumber
+    gstatue = False
+    for i in INPTS:
+        if (i.value).isnumeric():
+            gstatue = True
+        else:
+            gstatue = False
+    number = []
+    for i in INPTS:
+        number.append(int(i.value))
+    if gstatue == True:
+        SDiv.remove()
+        OneNum = sum(number)
+        FinalNum = OneNum / len(INPTS)
+        finalNumber = FinalNum
+        document["Res"].text = f"{FinalNum}:النتيجة"
+        alreadyHave = False
+    else:
+        alert("bad")
+def FirstStep(ev):
+    try:
+        global SDiv
+        global INPTS
+        global alreadyHave
+        if not alreadyHave:
+            alreadyHave = True
+            text = document["IInput"].value
+            #try:
+            intet = int(text)
+            Newdiv = html.DIV(id="Dinput")
+            document <= Newdiv
+            Newdiv <= html.H1("ادخال الارقام")
+            Newdiv <= html.H5("يرجى ادخال ارقام فقط.")
+            NewInputs = []
+            INPTS = NewInputs
+            for i in range(0,intet):
+                NewI = html.INPUT()
+                Newdiv <= NewI
+                NewInputs.append(NewI)
+            Newdiv <= html.H6()
+            buton = html.BUTTON("التالي")
+            Newdiv <= buton
+            buton.bind("click",SecondStep)
+            SDiv = Newdiv
+    except:
+            alert("المدخلات ليست ارقام")
+document["SInsert"].bind("click",FirstStep)
+</script>
+
+<div class="Upper">
+    <h1>حساب نسبة الطالب</h1>
+</div>
+<h1>ايجاد نسبة واحدة من مجموع من الارقام</h1>
+
+<div id="Dinput">
+    <h2>كم عدد الارقام</h2>
+    <h5>مطلوب ان يكون رقم</h5>
+    <h5>اذا كان العدد كبير فالموقع لن يستحمل</h5>
+    <input id="IInput"></input>
+    <button id="SInsert">التالي</button>
+</div>
+<h1 id = "Res">النتيجة:</h1>
+</body>
+</html>
